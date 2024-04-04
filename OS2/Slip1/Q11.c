@@ -43,6 +43,7 @@ void display_menu() {
     printf("a) Accept Available\n");
     printf("b) Display Allocation and Max\n");
     printf("c) Display the contents of Need Matrix\n");
+    
     printf("d) Display Available\n");
     printf("e) Exit\n");
     printf("Enter your choice: ");

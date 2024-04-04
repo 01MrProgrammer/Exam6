@@ -1,4 +1,25 @@
-public class Q1 {
+public class Q1 extends Thread{
+    char ch;
+    public void run()
+    {
+        for(ch='A';ch<='Z';ch++)
+       // for(ch='a';ch<='z';ch++)
+        {
+            System.out.println(""+ch);
+            try{
+                Thread.sleep(1000);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void main(String[] args) {
+        Q1 t=new Q1();
+        t.start();
+    }
+}
+
+/*public class Q1 {
 
     public static void main(String[] args) throws InterruptedException {
         for (char ch = 'A'; ch <= 'Z'; ch++) {
@@ -7,7 +28,7 @@ public class Q1 {
         }
         System.out.println(); // Print a newline after all characters
     }
-}
+}*/
 
 
 /*
