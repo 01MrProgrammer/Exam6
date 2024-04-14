@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <script>
+        function getBookDetails() {
+            var bookTitle = document.getElementById('bookSelect').value;
+            
+            // Make an Ajax request
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var xmlDoc = xhr.responseXML;
+                    var books = xmlDoc.getElementsByTagName('book');
+                    for (var i = 0; i < books.length; i++) {
+                        var title = books[i].getElementsByTagName('title')[0].childNodes[0].nodeValue;
+                        if (title === bookTitle) {
+                            var author = books[i].getElementsByTagName('author')[0].childNodes[0].nodeValue;
+                            var year = books[i].getElementsByTagName('year')[0].childNodes[0].nodeValue;
+                            var price = books[i].getElementsByTagName('price')[0].childNodes[0].nodeValue;
+                            var details = "Author: " + author + "<br>" +
+                                          "Year: " + year + "<br>" +
+                                          "Price: $" + price;
+                            document.getElementById('bookDetails').innerHTML = details;
+                            break;
+                        }
+                    }
+                }
+            };
+            xhr.open("GET", "books.xml", true); // Path to the XML file
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Select a book:</h2>
+    <select id="bookSelect">
+        <option value="Book 1">Book 1</option>
+        <option value="Book 2">Book 2</option>
+        <option value="Book 3">Book 3</option>
+    </select>
+    <button onclick="getBookDetails()">Get Details</button>
+    <div id="bookDetails"></div>
+</body>
+</html>

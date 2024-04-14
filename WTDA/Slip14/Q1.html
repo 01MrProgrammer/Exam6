@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Details</title>
+    <script>
+        function getTeacherDetails() {
+            var teacherName = document.getElementById('teacherName').value;
+            
+            // Make an Ajax request
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var teacherDetails = JSON.parse(xhr.responseText);
+                    document.getElementById('teacherDetails').innerHTML = "Teacher Number: " + teacherDetails.tno + "<br>" +
+                                                                          "Teacher Name: " + teacherDetails.tname + "<br>" +
+                                                                          "Qualification: " + teacherDetails.qualification + "<br>" +
+                                                                          "Salary: $" + teacherDetails.salary;
+                }
+            };
+            xhr.open("GET", "teachers.json", true); // Assuming the JSON file is named 'teachers.json'
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Teacher Details</h2>
+    <label for="teacherName">Select a teacher:</label>
+    <select id="teacherName">
+        <option value="John Doe">John Doe</option>
+        <option value="Jane Smith">Jane Smith</option>
+        <option value="Alice Johnson">Alice Johnson</option>
+    </select>
+    <button onclick="getTeacherDetails()">Get Details</button>
+    <div id="teacherDetails"></div>
+</body>
+</html>
+
+

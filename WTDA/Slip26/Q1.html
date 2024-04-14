@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Details</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#selectEmployee').change(function(){
+                var selectedEmployee = $(this).val();
+                $.ajax({
+                    url: 'get_employee_details.php',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { employee_name: selectedEmployee },
+                    success: function(response){
+                        $('#employeeDetails').html(response);
+                    },
+                    error: function(xhr, status, error){
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <label for="selectEmployee">Select Employee:</label>
+    <select id="selectEmployee">
+        <option value="">-- Select Employee --</option>
+        <!-- Populate options dynamically from database -->
+        <option value="John">John</option>
+        <option value="Alice">Alice</option>
+    </select>
+    <div id="employeeDetails"></div>
+</body>
+</html>

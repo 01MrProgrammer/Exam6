@@ -1,0 +1,5 @@
+[
+    {"tno": 1, "tname": "John Doe", "qualification": "Ph.D.", "salary": 60000},
+    {"tno": 2, "tname": "Jane Smith", "qualification": "M.Sc.", "salary": 55000},
+    {"tno": 3, "tname": "Alice Johnson", "qualification": "B.Sc.", "salary": 50000}
+]

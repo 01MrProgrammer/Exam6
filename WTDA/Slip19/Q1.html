@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <script>
+        // Function to validate username and password
+        function validateForm() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Check if username is empty
+            if (username.trim() === "") {
+                alert("Please enter a username");
+                return false;
+            }
+
+            // Check if password is empty
+            if (password.trim() === "") {
+                alert("Please enter a password");
+                return false;
+            }
+
+            // Additional validation logic can be added here
+
+            // If all validations pass, return true
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>User Login</h2>
+    <form onsubmit="return validateForm()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>

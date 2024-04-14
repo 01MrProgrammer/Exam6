@@ -16,4 +16,4 @@ foreach ($movies as $movie) {
     // Print MovieTitle and ActorName
     echo "Movie Title: $title, Actor Name: $actor <br>";
 }
-?>
+?> 

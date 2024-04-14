@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Details</title>
+    <title>Employee Details - Page 1</title>
 </head>
 <body>
-    <h2>Employee Details</h2>
-    <form action="earning_details.php" method="post">
+    <h2>Enter Employee Details</h2>
+    <form action="earning_details.php" method="POST">
         Employee Number: <input type="text" name="eno"><br>
         Employee Name: <input type="text" name="ename"><br>
         Address: <input type="text" name="address"><br>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci Numbers</title>
+    <script>
+        // Function to print Fibonacci numbers
+        function printFibonacci() {
+            // Get the number of Fibonacci numbers to print from user input
+            var num = parseInt(prompt("Enter the number of Fibonacci numbers to print:"));
+            
+            // Check if input is a positive integer
+            if (!isNaN(num) && num > 0 && Number.isInteger(num)) {
+                var fibNumbers = [0, 1];
+                
+                // Calculate Fibonacci numbers
+                for (var i = 2; i < num; i++) {
+                    fibNumbers[i] = fibNumbers[i - 1] + fibNumbers[i - 2];
+                }
+                
+                // Print Fibonacci numbers
+                alert("Fibonacci numbers: " + fibNumbers.join(", "));
+            } else {
+                alert("Invalid input! Please enter a positive integer.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Fibonacci Numbers</h2>
+    <button onclick="printFibonacci()">Print Fibonacci Numbers</button>
+</body>
+</html>

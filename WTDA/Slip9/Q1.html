@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Membership Form</title>
+    <script>
+        function validateForm() {
+            // Get the username and password input values
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Regular expressions for username and password validation
+            var usernameRegex = /^[a-zA-Z0-9_]{5,}$/; // Username must contain at least 5 characters, alphanumeric and underscore only
+            var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/; // Password must contain at least 8 characters, including at least one digit, one lowercase letter, and one uppercase letter
+
+            // Validate username
+            if (!usernameRegex.test(username)) {
+                alert("Invalid username. Username must contain at least 5 characters, alphanumeric and underscore only.");
+                return false;
+            }
+
+            // Validate password
+            if (!passwordRegex.test(password)) {
+                alert("Invalid password. Password must contain at least 8 characters, including at least one digit, one lowercase letter, and one uppercase letter.");
+                return false;
+            }
+                alert("Successful...")
+            // Form is valid
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>Membership Form</h2>
+    <form onsubmit="return validateForm()">
+        <!-- Username input --> 
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username"><br>
+        
+        <!-- Password input -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password"><br>
+        
+        <!-- Submit button -->
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
