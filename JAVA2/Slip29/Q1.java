@@ -1,38 +1,32 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Q1 {
-    // JDBC URL, username, and password of PostgreSQL server
-    static final String JDBC_URL = "jdbc:postgresql://localhost:5432/your_database";
-    static final String USERNAME = "your_username";
-    static final String PASSWORD = "your_password";
+    // JDBC URL, username, and password for PostgreSQL
+    static final String JDBC_URL = "jdbc:postgresql://localhost:5432/mydatabase";
+    static final String USERNAME = "username";
+    static final String PASSWORD = "password";
 
     public static void main(String[] args) {
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
             // Create a statement
-            Statement statement = connection.createStatement();
+            Statement stmt = conn.createStatement();
 
-            // Execute query to get the result set
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM DONAR");
+            // Execute query to retrieve metadata
+            ResultSet rs = stmt.executeQuery("SELECT * FROM DONAR");
 
-            // Get metadata
-            ResultSetMetaData metaData = resultSet.getMetaData();
-
-            // Get the number of columns
+            // Get ResultSetMetaData
+            ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
-            System.out.println("Number of columns: " + columnCount);
 
-            // Display column information
+            // Display column details
+            System.out.println("Column Information for DONAR Table:");
             for (int i = 1; i <= columnCount; i++) {
-                System.out.println("Column Name: " + metaData.getColumnName(i));
-                System.out.println("Data Type: " + metaData.getColumnTypeName(i));
-                System.out.println("Is Nullable: " + metaData.isNullable(i));
-                System.out.println("Is Auto Increment: " + metaData.isAutoIncrement(i));
-                System.out.println("Is Read Only: " + metaData.isReadOnly(i));
+                String columnName = metaData.getColumnName(i);
+                String columnType = metaData.getColumnTypeName(i);
+                int columnSize = metaData.getColumnDisplaySize(i);
+                System.out.println("Column Name: " + columnName);
+                System.out.println("Column Type: " + columnType);
+                System.out.println("Column Size: " + columnSize);
                 System.out.println();
             }
         } catch (SQLException e) {

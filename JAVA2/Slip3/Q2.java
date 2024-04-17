@@ -27,7 +27,8 @@ public class Q2 {
         // Delete the first element of the list
         if (!linkedList.isEmpty()) {
             linkedList.removeFirst();
-            System.out.println("\nAfter deleting first element:");
+            System.out.
+            ("\nAfter deleting first element:");
             System.out.println(linkedList);
         } else {
             System.out.println("\nThe list is empty.");
