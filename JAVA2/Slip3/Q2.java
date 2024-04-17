@@ -8,7 +8,7 @@ public class Q2 {
         LinkedList<String> linkedList = new LinkedList<>();
 
         // Scanner for user input
-        Scanner scanner = new Scanner(System.in-);
+        Scanner scanner = new Scanner(System.in);
 
         // Add elements at the end of the list
         System.out.print("Enter elements to add to the list (press Enter after each element, type 'done' to finish): ");
@@ -27,8 +27,7 @@ public class Q2 {
         // Delete the first element of the list
         if (!linkedList.isEmpty()) {
             linkedList.removeFirst();
-            System.out.
-            ("\nAfter deleting first element:");
+            System.out.println("\nAfter deleting first element:");
             System.out.println(linkedList);
         } else {
             System.out.println("\nThe list is empty.");
