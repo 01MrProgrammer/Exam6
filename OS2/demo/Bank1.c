@@ -1,104 +1,149 @@
 #include <stdio.h>
-#include <stdbool.h>
 
 #define MAX_PROCESSES 10
 #define MAX_RESOURCES 10
 
+int max[MAX_PROCESSES][MAX_RESOURCES], allocation[MAX_PROCESSES][MAX_RESOURCES], need[MAX_PROCESSES][MAX_RESOURCES];
 int available[MAX_RESOURCES];
-int allocation[MAX_PROCESSES][MAX_RESOURCES];
-int max_requirement[MAX_PROCESSES][MAX_RESOURCES];
-int need[MAX_PROCESSES][MAX_RESOURCES];
-int m, n;
+int np, nr;
 
-// Function to calculate the need matrix
-void calculate_need() {
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            need[i][j] = max_requirement[i][j] - allocation[i][j];
+void readMatrix(int matrix[10][10], int np, int nr) {
+    printf("\nEnter the matrix:\n");
+    for (int i = 0; i < np; i++) {
+        printf("P%d: ", i);
+        for (int j = 0; j < nr; j++) {
+            scanf("%d", &matrix[i][j]);
         }
     }
 }
 
-// Function to check if the request can be granted immediately
-bool is_safe(int process, int request[]) {
-    // Check if request is less than or equal to need
-    for (int i = 0; i < n; i++) {
-        if (request[i] > need[process][i]) {
-            return false;
+void displayMatrix(int matrix[10][10], int np, int nr) {
+    for (int i = 0; i < np; i++) {
+        printf("\nP%d: ", i);
+        for (int j = 0; j < nr; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+    }
+}
+
+void calculateNeed() {
+    for (int i = 0; i < np; i++) {
+        for (int j = 0; j < nr; j++) {
+            need[i][j] = max[i][j] - allocation[i][j];
+        }
+    }
+}
+
+void banker() {
+    int finish[MAX_PROCESSES] = {0};
+    int safeSeq[MAX_PROCESSES], k = 0;
+
+    int work[MAX_RESOURCES];
+    for (int i = 0; i < nr; i++) {
+        work[i] = available[i];
+    }
+
+    for (int i = 0; i < np; i++) {
+        if (finish[i] == 0) {
+            int flag = 0;
+            for (int j = 0; j < nr; j++) {
+                if (need[i][j] > work[j]) {
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                safeSeq[k++] = i;
+                finish[i] = 1;
+                for (int j = 0; j < nr; j++) {
+                    work[j] += allocation[i][j];
+                }
+                i = -1;
+            }
         }
     }
 
-    // Check if request is less than or equal to available
-    for (int i = 0; i < n; i++) {
-        if (request[i] > available[i]) {
-            return false;
+    int isSafe = 1;
+    for (int i = 0; i < np; i++) {
+        if (finish[i] == 0) {
+            isSafe = 0;
+            break;
         }
     }
 
-    return true;
+    if (isSafe) {
+        printf("\nThe system is in a safe state.\nSafe sequence is: ");
+        for (int i = 0; i < np; i++) {
+            printf("P%d ", safeSeq[i]);
+        }
+    } else {
+        printf("\nThe system is in a deadlock.");
+    }
+}
+
+void displayAvailable() {
+    printf("\nAvailable Resources: ");
+    for (int i = 0; i < nr; i++) {
+        printf("%d ", available[i]);
+    }
+    printf("\n");
 }
 
 int main() {
-    // Accept number of processes and resource types
-    printf("Enter the number of processes: ");
-    scanf("%d", &m);
-    printf("Enter the number of resource types: ");
-    scanf("%d", &n);
+    int choice;
 
-    // Accept available instances for each resource type
-    printf("Enter the number of instances for each resource type:\n");
-    for (int i = 0; i < n; i++) {
-        printf("Resource type %d: ", i);
+    printf("Enter the Number of Processes: ");
+    scanf("%d", &np);
+    printf("Enter the Number of Resources: ");
+    scanf("%d", &nr);
+
+    printf("\nEnter initial allocation matrix:\n");
+    readMatrix(allocation, np, nr);
+
+    printf("\nEnter maximum requirement matrix:\n");
+    readMatrix(max, np, nr);
+
+    printf("\nEnter the available resources:\n");
+    for (int i = 0; i < nr; i++) {
         scanf("%d", &available[i]);
     }
 
-    // Accept allocation matrix
-    printf("Enter the allocation matrix:\n");
-    for (int i = 0; i < m; i++) {
-        printf("For process %d: ", i);
-        for (int j = 0; j < n; j++) {
-            scanf("%d", &allocation[i][j]);
+    calculateNeed();
+
+    do {
+        printf("\n\nMenu:\n");
+        printf("1. Display Allocation and Maximum Matrices\n");
+        printf("2. Display Need Matrix\n");
+        printf("3. Display Available Matrix\n");
+        printf("4. Run Banker's Algorithm\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("\nInitial Allocation Matrix:\n");
+                displayMatrix(allocation, np, nr);
+                printf("\n\nMaximum Requirement Matrix:\n");
+                displayMatrix(max, np, nr);
+                break;
+            case 2:
+                printf("\nNeed Matrix:\n");
+                displayMatrix(need, np, nr);
+                break;
+            case 3:
+                displayAvailable();
+                break;
+            case 4:
+                banker();
+                break;
+            case 5:
+                printf("\nExiting...\n");
+                break;
+            default:
+                printf("\nInvalid choice! Please try again.\n");
         }
-    }
-
-    // Accept maximum requirement matrix
-    printf("Enter the maximum requirement matrix:\n");
-    for (int i = 0; i < m; i++) {
-        printf("For process %d: ", i);
-        for (int j = 0; j < n; j++) {
-            scanf("%d", &max_requirement[i][j]);
-        }
-    }
-
-    // Calculate the need matrix
-    calculate_need();
-
-    // Display the need matrix
-    printf("Need matrix:\n");
-    for (int i = 0; i < m; i++) {
-        printf("For process %d: ", i);
-        for (int j = 0; j < n; j++) {
-            printf("%d ", need[i][j]);
-        }
-        printf("\n");
-    }
-
-    // Check if a given request can be granted immediately
-    int process;
-    printf("Enter the process for which request is made: ");
-    scanf("%d", &process);
-
-    int request[MAX_RESOURCES];
-    printf("Enter the request for process %d: ", process);
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &request[i]);
-    }
-
-    if (is_safe(process, request)) {
-        printf("Request can be granted immediately.\n");
-    } else {
-        printf("Request cannot be granted immediately.\n");
-    }
+    } while (choice != 5);
 
     return 0;
 }
