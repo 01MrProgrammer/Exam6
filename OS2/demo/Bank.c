@@ -113,7 +113,7 @@ void get_alloc_state() {
                         printf("\n System will not be in safe state after request...");
 
                         printf("\n Allocation state is undone... ");
-
++++
                         printf("\n Process requesting should wait ...");
 
                     }

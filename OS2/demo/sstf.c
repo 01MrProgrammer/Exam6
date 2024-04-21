@@ -1,60 +1,62 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
-// Function to calculate absolute difference
-int abs_diff(int a, int b) {
+// Function to calculate the absolute difference between two numbers
+int absDiff(int a, int b) {
     return abs(a - b);
 }
 
+// Function to find the index of the nearest track from the current head position
+int findNearestTrack(int tracks[], int n, int head, int visited[]) {
+    int minDist = INT_MAX;
+    int index = -1;
+
+    for (int i = 0; i < n; i++) {
+        if (!visited[i]) {
+            int dist = absDiff(tracks[i], head);
+            if (dist < minDist) {
+                minDist = dist;
+                index = i;
+            }
+        }
+    }
+
+    return index;
+}
+
 int main() {
-    int total_blocks, head_position, current_head, min_index, min_distance, seek_count = 0;
-    int *requests;
+    int total_blocks, head, seek_count = 0;
 
     printf("Enter the total number of disk blocks: ");
     scanf("%d", &total_blocks);
 
-    requests = (int *)malloc(total_blocks * sizeof(int));
+    int *req_list = (int *)malloc(total_blocks * sizeof(int));
+    int *visited = (int *)calloc(total_blocks, sizeof(int));
 
     printf("Enter the disk request string (separated by spaces):\n");
     for (int i = 0; i < total_blocks; i++) {
-        scanf("%d", &requests[i]);
+        scanf("%d", &req_list[i]);
     }
 
-    printf("Enter the start head position: ");
-    scanf("%d", &head_position);
-
-    current_head = head_position;
+    printf("Enter the initial head position: ");
+    scanf("%d", &head);
 
     printf("Request Processing Order:\n");
-    printf("%d ", current_head); // Print initial head position
+    printf("%d ", head); // Print initial head position
 
+    int currentTrack = head;
     for (int i = 0; i < total_blocks; i++) {
-        min_distance = abs_diff(requests[0], current_head);
-        min_index = 0;
-
-        // Find the closest request
-        for (int j = 1; j < total_blocks; j++) {
-            if (abs_diff(requests[j], current_head) < min_distance) {
-                min_distance = abs_diff(requests[j], current_head);
-                min_index = j;
-            }
-        }
-
-        // Print the request being served
-        printf("%d ", requests[min_index]);
-
-        // Update total head movements
-        seek_count += min_distance;
-
-        // Update current head position
-        current_head = requests[min_index];
-
-        // Mark the request as served
-        requests[min_index] = -1;
+        int nextTrack = findNearestTrack(req_list, total_blocks, currentTrack, visited);
+        visited[nextTrack] = 1;
+        seek_count += absDiff(req_list[nextTrack], currentTrack);
+        currentTrack = req_list[nextTrack];
+        printf("%d ", currentTrack);
     }
 
     printf("\nTotal head movements: %d\n", seek_count);
 
-    free(requests);
+    free(req_list);
+    free(visited);
     return 0;
 }

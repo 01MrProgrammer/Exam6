@@ -1,39 +1,35 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-
-
 int main()
-{   
-    int total_blocks,i,head,temp,seek=0;
+{
+    int head,temp,total,i,seek=0;
     int *list;
-    printf("Enter the Total Number of Blocks:");
-    scanf("%d",&total_blocks);
 
-    list = (int *)malloc(total_blocks * sizeof(int));
+    printf("Enter total Number of disk bloks:");
+    scanf("%d",&total);
 
-    printf("Enter disk req string:\n");
-    for(i=0;i<total_blocks;i++)
-    {
+    list = (int *)malloc(total * sizeof(int));
+
+    printf("Enter request String Seperated by space:\n");
+    for(i=0;i<total;i++){
         scanf("%d",&list[i]);
     }
 
-    printf("Enter head:");
-    scanf("%d",&head);
+    printf("Enter head position: ");
+    scanf("%d ",&head);
 
-    printf("req processing order:\n");
-    printf("%d ",head);
+    printf("Request Processing Order:\n");
+    printf("%d ", head);
 
-    for(i=0;i<total_blocks;i++)
-    {
-        seek += abs(list[i]-head);
+    for(i=0;i<total;i++){
+        seek+= abs(list[i]-head);
         head=list[i];
         printf("%d ",head);
     }
 
-    printf("\ntotal head Mov:%d\n",seek);
+    printf("total no of head mov:%d\n",seek);
 
     free(list);
     return 0;
-
 }
